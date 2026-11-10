@@ -1,0 +1,15 @@
+{
+  "emulators": {
+    "singleProjectMode": true,
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": true
+    },
+    "apphosting": {
+      "port": 5002,
+      "rootDirectory": "./"
+    }
+  }
+}

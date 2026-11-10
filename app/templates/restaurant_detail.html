@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ restaurant.name }} · FriendlyEats{% endblock %}
+{% block content %}
+<a class="back" href="/">← Volver al listado</a>
+
+<article class="detail">
+  {% if restaurant.photoUrl %}
+  <img class="detail-img" src="{{ restaurant.photoUrl }}" alt="{{ restaurant.name }}"
+       onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'detail-img placeholder',textContent:'🍽️'}))">
+  {% else %}
+  <div class="detail-img placeholder">🍽️</div>
+  {% endif %}
+
+  <div class="detail-info">
+    <h1>{{ restaurant.name }}</h1>
+    <dl>
+      <dt>Categoría</dt><dd>{{ restaurant.category }}</dd>
+      <dt>Ciudad</dt><dd>{{ restaurant.city }}</dd>
+      <dt>Precio</dt><dd class="price">{{ "$" * restaurant.price }}</dd>
+      <dt>Calificación</dt>
+      <dd>⭐ {{ "%.1f"|format(restaurant.avgRating or 0) }} ({{ restaurant.numRatings or 0 }} reseñas)</dd>
+    </dl>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="/restaurants/{{ restaurant.id }}/edit">Editar</a>
+      <button class="btn btn-danger" id="delete-btn" type="button"
+              data-id="{{ restaurant.id }}" data-name="{{ restaurant.name }}">Eliminar</button>
+    </div>
+  </div>
+</article>
+{% endblock %}

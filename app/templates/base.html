@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}FriendlyEats{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/">🍽️ FriendlyEats</a>
+    <nav>
+      <a href="/">Restaurantes</a>
+      <a class="btn btn-primary" href="/restaurants/new">+ Nuevo</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <div id="flash" class="flash" hidden></div>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">FriendlyEats · Sprint 1</footer>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Restaurantes · FriendlyEats{% endblock %}
+{% block content %}
+<h1>Restaurantes</h1>
+
+<form class="filters" method="get" action="/">
+  <select name="city" aria-label="Ciudad">
+    <option value="">Todas las ciudades</option>
+    {% for c in cities %}
+    <option value="{{ c }}" {{ "selected" if filters.city == c }}>{{ c }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="category" aria-label="Categoría">
+    <option value="">Todas las categorías</option>
+    {% for c in categories %}
+    <option value="{{ c }}" {{ "selected" if filters.category == c }}>{{ c }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="price" aria-label="Precio">
+    <option value="">Cualquier precio</option>
+    <option value="1" {{ "selected" if filters.price == 1 }}>$</option>
+    <option value="2" {{ "selected" if filters.price == 2 }}>$$</option>
+    <option value="3" {{ "selected" if filters.price == 3 }}>$$$</option>
+  </select>
+
+  <select name="order_by" aria-label="Ordenar por">
+    {% for key, label in order_options.items() %}
+    <option value="{{ key }}" {{ "selected" if filters.order_by == key }}>{{ label }}</option>
+    {% endfor %}
+  </select>
+
+  <button class="btn btn-primary" type="submit">Filtrar</button>
+  <a class="btn" href="/">Limpiar</a>
+</form>
+
+{% if restaurants %}
+<section class="grid">
+  {% for r in restaurants %}
+  <article class="card">
+    {% if r.photoUrl %}
+    <img class="card-img" src="{{ r.photoUrl }}" alt="{{ r.name }}" loading="lazy"
+         onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'card-img placeholder',textContent:'🍽️'}))">
+    {% else %}
+    <div class="card-img placeholder">🍽️</div>
+    {% endif %}
+    <div class="card-body">
+      <h2>{{ r.name }}</h2>
+      <p class="muted">{{ r.category }} · {{ r.city }}</p>
+      <p class="meta">
+        <span class="price">{{ "$" * r.price }}</span>
+        <span class="rating">⭐ {{ "%.1f"|format(r.avgRating or 0) }} <small>({{ r.numRatings or 0 }})</small></span>
+      </p>
+      <a class="btn btn-primary btn-block" href="/restaurants/{{ r.id }}">Ver detalles</a>
+    </div>
+  </article>
+  {% endfor %}
+</section>
+{% else %}
+<p class="empty">No hay restaurantes con esos filtros. <a href="/restaurants/new">Crea uno</a>.</p>
+{% endif %}
+{% endblock %}
